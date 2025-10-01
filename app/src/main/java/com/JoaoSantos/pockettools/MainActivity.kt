@@ -29,6 +29,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        buttonBuilder.init(this).addLockScreen().addIncreaseVolume().addDecreaseVolume()
+        buttonBuilder.init(this).addLockScreen().addVolume()
     }
 }
