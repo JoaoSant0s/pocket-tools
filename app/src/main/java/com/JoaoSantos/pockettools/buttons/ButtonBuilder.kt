@@ -15,10 +15,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.JoaoSantos.pockettools.DeviceAdminReceiver
 import com.JoaoSantos.pockettools.MainActivity
 import com.JoaoSantos.pockettools.R
+import com.JoaoSantos.pockettools.utils.ButtonWrapper
 import com.JoaoSantos.pockettools.utils.Message
 import com.google.android.material.button.MaterialButton
 
 class ButtonBuilder {
+    private lateinit var horizontalElementLayoutParams: LinearLayout.LayoutParams
+    private lateinit var baseLayoutParams: LinearLayout.LayoutParams
+
     private lateinit var rootLayout: ViewGroup
     private lateinit var context: MainActivity
 
@@ -37,11 +41,13 @@ class ButtonBuilder {
             ActivityResultContracts.StartActivityForResult()
         ) {}
 
+        createLayoutParams()
+
         return this
     }
 
     fun addLockScreen(): ButtonBuilder {
-        createButton(R.string.lock_screen)
+        createTextButton(R.string.lock_screen)
         {
             if (!tryRequestAdminAccess()) {
                 devicePolicyManager.lockNow()
@@ -56,20 +62,11 @@ class ButtonBuilder {
 
         val horizontalLayout = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
-            layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
+            layoutParams = baseLayoutParams
             gravity = Gravity.CENTER  // optional, to center the buttons
         }
 
-        val layoutParams = LinearLayout.LayoutParams(
-            0,  // 0 with weight makes buttons share space
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            1f  // weight = 1, so both buttons take equal width
-        )
-
-        createButton(R.string.decrease_volume, horizontalLayout, layoutParams){
+        createTextButton(R.string.decrease_volume, horizontalLayout, horizontalElementLayoutParams){
             audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_PLAY_SOUND)
 
             val currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
@@ -78,7 +75,7 @@ class ButtonBuilder {
             Message.showToast(context, "Volume: $currentVolume / $maxVolume", Toast.LENGTH_SHORT)
         }
 
-        createButton(R.string.increase_volume, horizontalLayout, layoutParams) {
+        createTextButton(R.string.increase_volume, horizontalLayout, horizontalElementLayoutParams) {
             audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND)
 
             val currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
@@ -91,23 +88,17 @@ class ButtonBuilder {
         return this
     }
 
-    private fun createButton(resId: Int, action: View.OnClickListener): MaterialButton {
-        return createButton(resId, rootLayout, LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
-        ), action)
+    private fun createTextButton(resId: Int, action: View.OnClickListener): MaterialButton {
+        val button = ButtonWrapper.createTextButton(context, baseLayoutParams, resId, action)
+
+        rootLayout.addView(button)
+
+        return button
     }
 
-    private fun createButton(resId: Int, parentLayout: ViewGroup, layout : ViewGroup.LayoutParams, action: View.OnClickListener): MaterialButton {
-        val button = MaterialButton(context).apply {
-            text = context.getString(resId)
-            layoutParams = layout
-        }
-
-        button.setOnClickListener(action)
-
+    private fun createTextButton(resId: Int, parentLayout: ViewGroup, layout : ViewGroup.LayoutParams, action: View.OnClickListener): MaterialButton {
+        val button = ButtonWrapper.createTextButton(context, layout, resId, action)
         parentLayout.addView(button)
-
         return button
     }
 
@@ -129,5 +120,19 @@ class ButtonBuilder {
         }
 
         return false
+    }
+
+    private fun createLayoutParams()
+    {
+         baseLayoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+
+        horizontalElementLayoutParams = LinearLayout.LayoutParams(
+            0,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            1f
+        )
     }
 }
