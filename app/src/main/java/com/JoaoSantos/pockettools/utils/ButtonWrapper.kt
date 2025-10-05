@@ -25,7 +25,7 @@ class ButtonWrapper {
             return button
         }
 
-        var baseLayoutParams =  LinearLayout.LayoutParams(
+        var baseLayoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )

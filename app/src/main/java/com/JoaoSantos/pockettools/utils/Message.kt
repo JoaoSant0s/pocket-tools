@@ -8,8 +8,8 @@ import android.widget.Toast
 class Message {
     companion object {
 
-        var toast: Toast? = null
-        var toastVisible = false
+        private var toast: Toast? = null
+        private var toastVisible = false
 
         fun showToast(context: Context, message: String, duration: Int = Toast.LENGTH_SHORT) {
             toast?.cancel()
