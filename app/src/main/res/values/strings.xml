@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Pocket Tools</string>
-    <string name="lock_screen">Lock Screen</string>
-    <string name="increase_volume">Volume : +</string>
-    <string name="decrease_volume">Volume: -</string>
+    <!-- Lock Screen Button    -->
+    <string name="lock_screen_button">Lock Screen</string>
+    <string name="lock_screen_permission">Permission needed to lock the screen</string>
+
+    <!-- Volume Button  -->
+    <string name="increase_volume_button">Volume : +</string>
+    <string name="decrease_volume_button">Volume: -</string>
 </resources>
