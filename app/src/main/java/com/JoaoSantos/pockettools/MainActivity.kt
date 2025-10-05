@@ -16,7 +16,7 @@ import com.JoaoSantos.pockettools.buttons.ButtonBuilder
 
 class MainActivity : AppCompatActivity() {
 
-    private val buttonBuilder : ButtonBuilder = ButtonBuilder()
+    private lateinit var buttonBuilder : ButtonBuilder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        buttonBuilder.init(this).addLockScreen().addVolume()
+        buttonBuilder = ButtonBuilder(this)
+        buttonBuilder.addLockScreen().addVolume().build()
     }
 }

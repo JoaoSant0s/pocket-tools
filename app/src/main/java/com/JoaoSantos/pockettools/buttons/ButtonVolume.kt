@@ -11,13 +11,13 @@ import com.JoaoSantos.pockettools.R
 import com.JoaoSantos.pockettools.utils.ButtonWrapper
 import com.JoaoSantos.pockettools.utils.Message
 
-class ButtonVolume(view: MainActivity) {
+class ButtonVolume(view: MainActivity) : Button{
 
-    private var context: MainActivity = view
+    override var context: MainActivity = view
     private var audioManager: AudioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     private var maxVolume: Int = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
 
-    fun create() : ViewGroup {
+    override fun create() : ViewGroup {
         val horizontalLayout = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             layoutParams = ButtonWrapper.baseLayoutParams

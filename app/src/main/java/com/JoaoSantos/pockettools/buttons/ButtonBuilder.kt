@@ -19,31 +19,29 @@ import com.JoaoSantos.pockettools.utils.ButtonWrapper
 import com.JoaoSantos.pockettools.utils.Message
 import com.google.android.material.button.MaterialButton
 
-class ButtonBuilder {
-    private lateinit var rootLayout: ViewGroup
-    private lateinit var context: MainActivity
+class ButtonBuilder(view: MainActivity) {
+    private var context: MainActivity = view
+    private var rootLayout: ViewGroup = context.findViewById<LinearLayout>(R.id.button_list)
 
-    private var buttonVolume: ButtonVolume? = null
-    private var buttonLockScreen: ButtonLockScreen? = null
-
-    fun init(view: MainActivity): ButtonBuilder {
-        context = view
-        rootLayout = context.findViewById<LinearLayout>(R.id.button_list)
-
-        return this
-    }
+    private var buttons : MutableList<Button> = mutableListOf<Button>()
 
     fun addLockScreen(): ButtonBuilder {
-        buttonLockScreen = ButtonLockScreen(context)
-        rootLayout.addView(buttonLockScreen!!.create())
+        buttons.add(ButtonLockScreen(context))
 
         return this
     }
 
     fun addVolume(): ButtonBuilder {
-        buttonVolume = ButtonVolume(context)
-        rootLayout.addView(buttonVolume!!.create())
+        buttons.add(ButtonVolume(context))
 
         return this
+    }
+
+    fun build()
+    {
+        for (button in buttons)
+        {
+            rootLayout.addView(button.create())
+        }
     }
 }

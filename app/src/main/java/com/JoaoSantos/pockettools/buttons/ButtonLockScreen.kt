@@ -14,16 +14,16 @@ import com.JoaoSantos.pockettools.MainActivity
 import com.JoaoSantos.pockettools.R
 import com.JoaoSantos.pockettools.utils.ButtonWrapper
 
-class ButtonLockScreen(view: MainActivity) {
+class ButtonLockScreen(view: MainActivity) : Button {
 
-    private var context: MainActivity = view
+    override var context: MainActivity = view
     private var deviceAdminLauncher: ActivityResultLauncher<Intent> = context.registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {}
 
     private var devicePolicyManager: DevicePolicyManager = context.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
 
-    fun create() : ViewGroup {
+    override fun create() : ViewGroup {
         val horizontalLayout = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             layoutParams = ButtonWrapper.baseLayoutParams
