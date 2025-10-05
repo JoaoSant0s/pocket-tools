@@ -1,4 +1,4 @@
-package com.JoaoSantos.pockettools
+package com.joaosant0s.pockettools
 
 import android.app.admin.DeviceAdminReceiver
 import android.content.Context

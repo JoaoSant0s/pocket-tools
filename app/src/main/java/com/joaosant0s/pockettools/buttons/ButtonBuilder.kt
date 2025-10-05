@@ -1,9 +1,9 @@
-package com.JoaoSantos.pockettools.buttons
+package com.joaosant0s.pockettools.buttons
 
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import com.JoaoSantos.pockettools.MainActivity
-import com.JoaoSantos.pockettools.R
+import com.joaosant0s.pockettools.MainActivity
+import com.joaosant0s.pockettools.R
 
 class ButtonBuilder(view: MainActivity) {
     private var context: MainActivity = view

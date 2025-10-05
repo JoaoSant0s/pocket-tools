@@ -1,4 +1,4 @@
-package com.JoaoSantos.pockettools
+package com.joaosant0s.pockettools
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.JoaoSantos.pockettools", appContext.packageName)
+        assertEquals("com.joaosant0s.pockettools", appContext.packageName)
     }
 }

@@ -1,10 +1,10 @@
-package com.JoaoSantos.pockettools.utils
+package com.joaosant0s.pockettools.utils
 
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 
-import com.JoaoSantos.pockettools.MainActivity
+import com.joaosant0s.pockettools.MainActivity
 import com.google.android.material.button.MaterialButton
 
 class ButtonWrapper {

@@ -1,4 +1,4 @@
-package com.JoaoSantos.pockettools.buttons
+package com.joaosant0s.pockettools.buttons
 
 import android.content.Context
 import android.media.AudioManager
@@ -6,11 +6,11 @@ import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
-import com.JoaoSantos.pockettools.MainActivity
-import com.JoaoSantos.pockettools.R
-import com.JoaoSantos.pockettools.utils.ButtonWrapper
-import com.JoaoSantos.pockettools.utils.Debug
-import com.JoaoSantos.pockettools.utils.Message
+import com.joaosant0s.pockettools.MainActivity
+import com.joaosant0s.pockettools.R
+import com.joaosant0s.pockettools.utils.ButtonWrapper
+import com.joaosant0s.pockettools.utils.Debug
+import com.joaosant0s.pockettools.utils.Message
 
 class ButtonVolume(view: MainActivity) : Button {
 

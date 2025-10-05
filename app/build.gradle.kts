@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.JoaoSantos.pockettools"
+    namespace = "com.joaosant0s.pockettools"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.JoaoSantos.pockettools"
+        applicationId = "com.joaosant0s.pockettools"
         minSdk = 24
         targetSdk = 36
         versionCode = 1

@@ -1,4 +1,4 @@
-package com.JoaoSantos.pockettools.utils
+package com.joaosant0s.pockettools.utils
 
 import android.content.Context
 import android.os.Handler

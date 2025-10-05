@@ -1,11 +1,11 @@
-package com.JoaoSantos.pockettools
+package com.joaosant0s.pockettools
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.JoaoSantos.pockettools.buttons.ButtonBuilder
+import com.joaosant0s.pockettools.buttons.ButtonBuilder
 
 class MainActivity : AppCompatActivity() {
 

@@ -1,4 +1,4 @@
-package com.JoaoSantos.pockettools.buttons
+package com.joaosant0s.pockettools.buttons
 
 import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
@@ -9,10 +9,10 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import com.JoaoSantos.pockettools.DeviceAdminReceiver
-import com.JoaoSantos.pockettools.MainActivity
-import com.JoaoSantos.pockettools.R
-import com.JoaoSantos.pockettools.utils.ButtonWrapper
+import com.joaosant0s.pockettools.DeviceAdminReceiver
+import com.joaosant0s.pockettools.MainActivity
+import com.joaosant0s.pockettools.R
+import com.joaosant0s.pockettools.utils.ButtonWrapper
 
 class ButtonLockScreen(view: MainActivity) : Button {
 
