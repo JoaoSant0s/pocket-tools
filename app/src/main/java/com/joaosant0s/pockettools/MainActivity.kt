@@ -5,11 +5,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.joaosant0s.pockettools.buttons.ButtonBuilder
+import com.joaosant0s.pockettools.tools.ToolsBuilder
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var buttonBuilder: ButtonBuilder
+    private lateinit var toolsBuilder: ToolsBuilder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        buttonBuilder = ButtonBuilder(this)
-        buttonBuilder.addLockScreen().addVolume().build()
+        toolsBuilder = ToolsBuilder(this)
+        toolsBuilder.addLockScreen().addVolume().build()
     }
 }

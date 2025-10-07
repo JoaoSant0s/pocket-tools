@@ -7,7 +7,7 @@ import android.widget.LinearLayout
 import com.joaosant0s.pockettools.MainActivity
 import com.google.android.material.button.MaterialButton
 
-class ButtonWrapper {
+class ToolWrapper {
     companion object {
         fun createTextButton(
             context: MainActivity,

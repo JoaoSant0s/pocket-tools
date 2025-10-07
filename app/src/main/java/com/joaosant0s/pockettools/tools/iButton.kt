@@ -1,9 +1,9 @@
-package com.joaosant0s.pockettools.buttons
+package com.joaosant0s.pockettools.tools
 
 import android.view.ViewGroup
 import com.joaosant0s.pockettools.MainActivity
 
-interface Button {
+interface Tool {
     fun create(): ViewGroup
     var context: MainActivity
 

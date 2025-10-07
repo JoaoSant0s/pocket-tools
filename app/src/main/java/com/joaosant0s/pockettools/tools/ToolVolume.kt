@@ -1,4 +1,4 @@
-package com.joaosant0s.pockettools.buttons
+package com.joaosant0s.pockettools.tools
 
 import android.content.Context
 import android.media.AudioManager
@@ -8,11 +8,11 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import com.joaosant0s.pockettools.MainActivity
 import com.joaosant0s.pockettools.R
-import com.joaosant0s.pockettools.utils.ButtonWrapper
+import com.joaosant0s.pockettools.utils.ToolWrapper
 import com.joaosant0s.pockettools.utils.Debug
 import com.joaosant0s.pockettools.utils.Message
 
-class ButtonVolume(view: MainActivity) : Button {
+class ToolVolume(view: MainActivity) : Tool {
 
     override var context: MainActivity = view
     private var audioManager: AudioManager =
@@ -22,13 +22,13 @@ class ButtonVolume(view: MainActivity) : Button {
     override fun create(): ViewGroup {
         val horizontalLayout = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
-            layoutParams = ButtonWrapper.baseLayoutParams
-            gravity = Gravity.CENTER  // optional, to center the buttons
+            layoutParams = ToolWrapper.baseLayoutParams
+            gravity = Gravity.CENTER
         }
 
-        val lowerButton = ButtonWrapper.createTextButton(
+        val lowerButton = ToolWrapper.createTextButton(
             context,
-            ButtonWrapper.horizontalElementLayoutParams,
+            ToolWrapper.horizontalElementLayoutParams,
             R.string.decrease_volume_button
         ) {
             audioManager.adjustStreamVolume(
@@ -42,9 +42,9 @@ class ButtonVolume(view: MainActivity) : Button {
             Message.showToast(context, "Volume: $currentVolume / $maxVolume", Toast.LENGTH_SHORT)
         }
 
-        val raiseButton = ButtonWrapper.createTextButton(
+        val raiseButton = ToolWrapper.createTextButton(
             context,
-            ButtonWrapper.horizontalElementLayoutParams,
+            ToolWrapper.horizontalElementLayoutParams,
             R.string.increase_volume_button
         ) {
             audioManager.adjustStreamVolume(

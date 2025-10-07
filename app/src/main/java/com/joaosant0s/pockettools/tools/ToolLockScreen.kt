@@ -1,4 +1,4 @@
-package com.joaosant0s.pockettools.buttons
+package com.joaosant0s.pockettools.tools
 
 import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
@@ -12,9 +12,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.joaosant0s.pockettools.DeviceAdminReceiver
 import com.joaosant0s.pockettools.MainActivity
 import com.joaosant0s.pockettools.R
-import com.joaosant0s.pockettools.utils.ButtonWrapper
+import com.joaosant0s.pockettools.utils.ToolWrapper
 
-class ButtonLockScreen(view: MainActivity) : Button {
+class ToolLockScreen(view: MainActivity) : Tool {
 
     override var context: MainActivity = view
     private var deviceAdminLauncher: ActivityResultLauncher<Intent> = context.registerForActivityResult(
@@ -26,11 +26,11 @@ class ButtonLockScreen(view: MainActivity) : Button {
     override fun create() : ViewGroup {
         val horizontalLayout = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
-            layoutParams = ButtonWrapper.baseLayoutParams
+            layoutParams = ToolWrapper.baseLayoutParams
             gravity = Gravity.CENTER
         }
 
-        val lockScreenButton = ButtonWrapper.createTextButton(context, ButtonWrapper.baseLayoutParams, R.string.lock_screen_button)
+        val lockScreenButton = ToolWrapper.createTextButton(context, ToolWrapper.baseLayoutParams, R.string.lock_screen_button)
         {
             if (!tryRequestAdminAccess()) {
                 devicePolicyManager.lockNow()
