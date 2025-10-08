@@ -1,4 +1,4 @@
-package com.joaosant0s.pockettools.utils
+package com.joaosant0s.pockettools.tools
 
 import android.view.View
 import android.view.ViewGroup
