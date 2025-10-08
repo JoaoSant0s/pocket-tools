@@ -8,7 +8,6 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import com.joaosant0s.pockettools.MainActivity
 import com.joaosant0s.pockettools.R
-import com.joaosant0s.pockettools.utils.ToolWrapper
 import com.joaosant0s.pockettools.utils.Debug
 import com.joaosant0s.pockettools.utils.Message
 

@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Pocket Tools</string>
+
+    <!-- Floating Button -->
+    <string name="floating_button">Floating button</string>
+
     <!-- Lock Screen Tool    -->
     <string name="lock_screen_button">Lock Screen</string>
     <string name="lock_screen_permission">Permission needed to lock the screen</string>

@@ -23,7 +23,7 @@ class ToolsBuilder(view: MainActivity) {
         return this
     }
 
-    fun build() {
+    fun create() {
         for (tool in tools) {
             rootLayout.addView(tool.create())
         }

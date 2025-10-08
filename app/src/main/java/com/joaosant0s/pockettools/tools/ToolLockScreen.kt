@@ -9,10 +9,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import com.joaosant0s.pockettools.DeviceAdminReceiver
+import com.joaosant0s.pockettools.core.admin.DeviceAdminReceiver
 import com.joaosant0s.pockettools.MainActivity
 import com.joaosant0s.pockettools.R
-import com.joaosant0s.pockettools.utils.ToolWrapper
 
 class ToolLockScreen(view: MainActivity) : Tool {
 
@@ -33,6 +32,7 @@ class ToolLockScreen(view: MainActivity) : Tool {
         val lockScreenButton = ToolWrapper.createTextButton(context, ToolWrapper.baseLayoutParams, R.string.lock_screen_button)
         {
             if (!tryRequestAdminAccess()) {
+                context.moveTaskToBack(true)
                 devicePolicyManager.lockNow()
             }
         }
