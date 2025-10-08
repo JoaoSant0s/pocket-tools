@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import com.joaosant0s.pockettools.DeviceAdminReceiver
+import com.joaosant0s.pockettools.services.DeviceAdminReceiver
 import com.joaosant0s.pockettools.MainActivity
 import com.joaosant0s.pockettools.R
 import com.joaosant0s.pockettools.utils.ToolWrapper

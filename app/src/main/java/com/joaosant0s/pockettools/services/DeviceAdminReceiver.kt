@@ -1,11 +1,11 @@
-package com.joaosant0s.pockettools
+package com.joaosant0s.pockettools.services
 
 import android.app.admin.DeviceAdminReceiver
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 
-class DeviceAdminReceiver : DeviceAdminReceiver(){
+class DeviceAdminReceiver : DeviceAdminReceiver() {
 
     override fun onEnabled(context: Context, intent: Intent) {
         Toast.makeText(context, "Device Admin enabled", Toast.LENGTH_SHORT).show()
