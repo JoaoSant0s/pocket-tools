@@ -33,6 +33,7 @@ class ToolLockScreen(view: MainActivity) : Tool {
         val lockScreenButton = ToolWrapper.createTextButton(context, ToolWrapper.baseLayoutParams, R.string.lock_screen_button)
         {
             if (!tryRequestAdminAccess()) {
+                context.moveTaskToBack(true)
                 devicePolicyManager.lockNow()
             }
         }
