@@ -1,6 +1,7 @@
 package com.joaosant0s.pockettools.core.floating
 
 import android.annotation.SuppressLint
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
@@ -14,6 +15,7 @@ import com.joaosant0s.pockettools.R
 class FloatingService : Service() {
 
     private lateinit var floatButton: FloatingButton
+    private val NOTIFICATION_ID_FOREGROUND_SERVICE = 1
     private val channelId = "floating_service"
 
     @SuppressLint("ClickableViewAccessibility")
@@ -35,16 +37,18 @@ class FloatingService : Service() {
             val channel =
                 NotificationChannel(channelId, "Floating Tool", NotificationManager.IMPORTANCE_LOW)
 
-            (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(
-                channel
-            )
+            val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            manager.createNotificationChannel(channel)
 
             val notification = NotificationCompat.Builder(this, channelId)
                 .setContentTitle("Floating Tool active")
                 .setSmallIcon(R.drawable.ic_tool)
+                .setOngoing(true)
                 .build()
 
-            startForeground(1, notification)
+            startForeground(NOTIFICATION_ID_FOREGROUND_SERVICE, notification)
+        } else {
+            startForeground(NOTIFICATION_ID_FOREGROUND_SERVICE, Notification())
         }
     }
 
