@@ -1,4 +1,4 @@
-package com.joaosant0s.pockettools.tools
+package com.joaosant0s.pockettools.tools.collection
 
 import android.content.Context
 import android.media.AudioManager
@@ -8,6 +8,8 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import com.joaosant0s.pockettools.MainActivity
 import com.joaosant0s.pockettools.R
+import com.joaosant0s.pockettools.tools.Tool
+import com.joaosant0s.pockettools.tools.ToolWrapper
 import com.joaosant0s.pockettools.utils.Debug
 import com.joaosant0s.pockettools.utils.Message
 

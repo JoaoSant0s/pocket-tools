@@ -4,6 +4,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.joaosant0s.pockettools.MainActivity
 import com.joaosant0s.pockettools.R
+import com.joaosant0s.pockettools.tools.collection.ToolLantern
+import com.joaosant0s.pockettools.tools.collection.ToolLockScreen
+import com.joaosant0s.pockettools.tools.collection.ToolVolume
 
 class ToolsBuilder(view: MainActivity) {
     private var context: MainActivity = view
@@ -19,6 +22,12 @@ class ToolsBuilder(view: MainActivity) {
 
     fun addVolume(): ToolsBuilder {
         tools.add(ToolVolume(context))
+
+        return this
+    }
+
+    fun addLantern(): ToolsBuilder {
+        tools.add(ToolLantern(context))
 
         return this
     }
