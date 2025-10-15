@@ -11,4 +11,7 @@
     <!-- Volume Tool  -->
     <string name="increase_volume_button">Volume : +</string>
     <string name="decrease_volume_button">Volume: -</string>
+
+    <!-- Lantern Tool    -->
+    <string name="lantern_toggle">Lantern</string>
 </resources>

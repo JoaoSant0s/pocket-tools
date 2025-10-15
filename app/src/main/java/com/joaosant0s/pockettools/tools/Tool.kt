@@ -4,7 +4,6 @@ import android.view.ViewGroup
 import com.joaosant0s.pockettools.MainActivity
 
 interface Tool {
-    fun create(): ViewGroup
     var context: MainActivity
-
+    fun create(): ViewGroup
 }

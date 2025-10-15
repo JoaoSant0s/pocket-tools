@@ -1,5 +1,6 @@
 package com.joaosant0s.pockettools
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.joaosant0s.pockettools.core.floating.FloatingController
 
 import com.joaosant0s.pockettools.tools.ToolsBuilder
+import com.joaosant0s.pockettools.tools.collection.ToolLantern
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,6 +22,8 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
+        val hasFlash = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
+
         toolsBuilder = ToolsBuilder(this)
         floatingController = FloatingController(this)
 
@@ -29,7 +33,9 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        toolsBuilder.addLockScreen().addVolume().create()
+        toolsBuilder = toolsBuilder.addLockScreen().addVolume()
+        if(hasFlash) toolsBuilder = toolsBuilder.addLantern()
+        toolsBuilder.create()
 
         floatingController.tryRequestFloatingPermission()
     }

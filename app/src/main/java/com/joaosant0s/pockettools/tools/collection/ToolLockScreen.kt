@@ -1,4 +1,4 @@
-package com.joaosant0s.pockettools.tools
+package com.joaosant0s.pockettools.tools.collection
 
 import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
@@ -12,6 +12,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.joaosant0s.pockettools.core.admin.DeviceAdminReceiver
 import com.joaosant0s.pockettools.MainActivity
 import com.joaosant0s.pockettools.R
+import com.joaosant0s.pockettools.tools.Tool
+import com.joaosant0s.pockettools.tools.ToolWrapper
 
 class ToolLockScreen(view: MainActivity) : Tool {
 
@@ -29,7 +31,11 @@ class ToolLockScreen(view: MainActivity) : Tool {
             gravity = Gravity.CENTER
         }
 
-        val lockScreenButton = ToolWrapper.createTextButton(context, ToolWrapper.baseLayoutParams, R.string.lock_screen_button)
+        val lockScreenButton = ToolWrapper.createTextButton(
+            context,
+            ToolWrapper.baseLayoutParams,
+            R.string.lock_screen_button
+        )
         {
             if (!tryRequestAdminAccess()) {
                 context.moveTaskToBack(true)
