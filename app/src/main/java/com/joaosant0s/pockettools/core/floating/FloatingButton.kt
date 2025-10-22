@@ -11,15 +11,16 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
-import android.widget.ImageButton
 import android.content.Context.WINDOW_SERVICE
 import android.content.Intent
+import android.widget.FrameLayout
 import androidx.core.content.edit
 
 import kotlin.math.absoluteValue
 
 import com.joaosant0s.pockettools.MainActivity
 import com.joaosant0s.pockettools.R
+import androidx.core.view.isVisible
 
 @SuppressLint("ClickableViewAccessibility")
 class FloatingButton(service: FloatingService) {
@@ -29,19 +30,34 @@ class FloatingButton(service: FloatingService) {
     private val floatingPrefs = "floating_prefs"
 
     private val screenWidth = Resources.getSystem().displayMetrics.widthPixels
-    private  val screenHeight = Resources.getSystem().displayMetrics.heightPixels
+    private val screenHeight = Resources.getSystem().displayMetrics.heightPixels
 
     private var context: FloatingService = service
-    private var button: ImageButton
+    private var floatingArea: FrameLayout
+    private var grid: FrameLayout
+    private var dragEnabled: Boolean = true
+
     private var windowManager = context.getSystemService(WINDOW_SERVICE) as WindowManager
 
     init {
         val inflater = context.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
         @SuppressLint("InflateParams")
-        button = inflater.inflate(R.layout.floating_button, null) as ImageButton
+        floatingArea = inflater.inflate(R.layout.floating_action_area, null) as FrameLayout
+        grid = inflater.inflate(R.layout.floating_panel, null) as FrameLayout
+        grid.visibility = View.INVISIBLE
 
-        val params = WindowManager.LayoutParams(
+        grid.measure(
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        )
+
+        floatingArea.measure(
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        )
+
+        val buttonParams = WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -53,22 +69,38 @@ class FloatingButton(service: FloatingService) {
             PixelFormat.TRANSLUCENT
         )
 
-        params.gravity = Gravity.TOP or Gravity.START
-        val position = loadPosition()
-        params.x = position.first
-        params.y = position.second
+        val gridParams = WindowManager.LayoutParams(
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+            else
+                @Suppress("DEPRECATION")
+                WindowManager.LayoutParams.TYPE_PHONE,
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+            PixelFormat.TRANSLUCENT
+        ).apply {
+            gravity = Gravity.TOP or Gravity.START
+        }
 
-        button.setOnTouchListener(object : View.OnTouchListener {
+        buttonParams.gravity = Gravity.TOP or Gravity.START
+        val position = loadPosition()
+        buttonParams.x = position.first
+        buttonParams.y = position.second
+
+        floatingArea.setOnTouchListener(object : View.OnTouchListener {
             private var initialX = 0
             private var initialY = 0
             private var initialTouchX = 0f
             private var initialTouchY = 0f
 
             override fun onTouch(v: View, event: MotionEvent): Boolean {
+                if (!dragEnabled) return false
+
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
-                        initialX = params.x
-                        initialY = params.y
+                        initialX = buttonParams.x
+                        initialY = buttonParams.y
                         initialTouchX = event.rawX
                         initialTouchY = event.rawY
 
@@ -80,10 +112,10 @@ class FloatingButton(service: FloatingService) {
                         val newY = (initialY + (event.rawY - initialTouchY)).toInt()
 
                         // Clamp within screen limits (subtract button size)
-                        params.x = newX.coerceIn(0, screenWidth - button.width)
-                        params.y = newY.coerceIn(0, screenHeight - button.height)
+                        buttonParams.x = newX.coerceIn(0, screenWidth - floatingArea.width)
+                        buttonParams.y = newY.coerceIn(0, screenHeight - floatingArea.height)
 
-                        windowManager.updateViewLayout(button, params)
+                        windowManager.updateViewLayout(floatingArea, buttonParams)
                         return true
                     }
 
@@ -94,18 +126,20 @@ class FloatingButton(service: FloatingService) {
                         if (dx.absoluteValue < clickThreshold && dy.absoluteValue < clickThreshold) {
                             v.performClick()
                         } else {
-                            params.x = if (params.x + button.width / 2 < screenWidth / 2) {
-                                limitOffset
-                            } else {
-                                screenWidth - button.width - limitOffset
-                            }
+                            buttonParams.x =
+                                if (buttonParams.x + floatingArea.width / 2 < screenWidth / 2) {
+                                    limitOffset
+                                } else {
+                                    screenWidth - floatingArea.width - limitOffset
+                                }
 
-                            params.y = params.y.coerceIn(0, screenHeight - button.height)
+                            buttonParams.y =
+                                buttonParams.y.coerceIn(0, screenHeight - floatingArea.height)
 
-                            windowManager.updateViewLayout(button, params)
+                            windowManager.updateViewLayout(floatingArea, buttonParams)
                         }
 
-                        savePosition(params.x, params.y)
+                        savePosition(buttonParams.x, buttonParams.y)
                         return true
                     }
                 }
@@ -113,15 +147,29 @@ class FloatingButton(service: FloatingService) {
             }
         })
 
-        button.setOnClickListener {
-            openMainActivity()
+        floatingArea.setOnClickListener {
+            if (grid.isVisible) {
+                grid.visibility = View.INVISIBLE
+                dragEnabled = true
+            } else {
+                dragEnabled = false
+                gridParams.x = buttonParams.x + floatingArea.width + 25
+                gridParams.y = buttonParams.y + floatingArea.height / 2 - grid.height / 2
+                windowManager.updateViewLayout(grid, gridParams)
+
+                grid.visibility = View.VISIBLE
+            }
+//            openMainActivity()
         }
 
-        windowManager.addView(button, params)
+//        floatingArea.addView(grid)
+        windowManager.addView(grid, gridParams)
+        windowManager.addView(floatingArea, buttonParams)
     }
 
     fun destroy() {
-        windowManager.removeView(button)
+        windowManager.removeView(floatingArea)
+        windowManager.removeView(grid)
     }
 
     private fun savePosition(x: Int, y: Int) {
@@ -144,7 +192,6 @@ class FloatingButton(service: FloatingService) {
         }
         context.startActivity(intent)
     }
-
 
 
 }
