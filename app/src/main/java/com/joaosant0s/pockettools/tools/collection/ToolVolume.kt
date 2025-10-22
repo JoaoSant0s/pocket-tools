@@ -10,7 +10,6 @@ import com.joaosant0s.pockettools.MainActivity
 import com.joaosant0s.pockettools.R
 import com.joaosant0s.pockettools.tools.Tool
 import com.joaosant0s.pockettools.tools.ToolWrapper
-import com.joaosant0s.pockettools.utils.Debug
 import com.joaosant0s.pockettools.utils.Message
 
 class ToolVolume(view: MainActivity) : Tool {
@@ -39,7 +38,6 @@ class ToolVolume(view: MainActivity) : Tool {
             )
 
             val currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
-            Debug.log("Volume: $currentVolume / $maxVolume")
             Message.showToast(context, "Volume: $currentVolume / $maxVolume", Toast.LENGTH_SHORT)
         }
 
@@ -55,7 +53,6 @@ class ToolVolume(view: MainActivity) : Tool {
             )
 
             val currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
-            Debug.log("Volume: $currentVolume / $maxVolume")
             Message.showToast(context, "Volume: $currentVolume / $maxVolume", Toast.LENGTH_SHORT)
         }
 

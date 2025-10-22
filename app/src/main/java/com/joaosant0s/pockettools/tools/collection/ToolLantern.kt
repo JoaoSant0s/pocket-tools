@@ -39,13 +39,11 @@ class ToolLantern(view: MainActivity) : Tool {
             orientation = LinearLayout.HORIZONTAL
             layoutParams = ToolWrapper.baseLayoutParams
             gravity = Gravity.CENTER
-//            setPadding(16, 8, 16, 8)
-            // Create a Material-like background
+
             val backgroundDrawable = GradientDrawable().apply {
                 shape = GradientDrawable.RECTANGLE
                 cornerRadius = 200f // adjust as needed
                 setColor("#CFBAFF".toColorInt()) // background
-//                setStroke(2, "#B0B0B0".toColorInt()) // border
             }
 
             background = backgroundDrawable

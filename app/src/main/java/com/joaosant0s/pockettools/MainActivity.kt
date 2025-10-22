@@ -6,6 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.joaosant0s.pockettools.core.Permission
 import com.joaosant0s.pockettools.core.floating.FloatingController
 import com.joaosant0s.pockettools.core.navigation.NavigationController
 
@@ -38,6 +39,13 @@ class MainActivity : AppCompatActivity() {
         toolsBuilder = toolsBuilder.addLockScreen().addVolume()
         if (hasFlash) toolsBuilder = toolsBuilder.addLantern()
         toolsBuilder.create()
+
+        val permissions: MutableList<Permission> = mutableListOf<Permission>().apply {
+            add(floatingController)
+            addAll(toolsBuilder.getPermissions())
+        }
+
+        navigationController.populatePermissionOptions(permissions)
 
         floatingController.tryRequestFloatingPermission()
     }
