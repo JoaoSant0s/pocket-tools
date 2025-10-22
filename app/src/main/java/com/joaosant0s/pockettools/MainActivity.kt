@@ -6,15 +6,17 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.joaosant0s.pockettools.core.Permission
 import com.joaosant0s.pockettools.core.floating.FloatingController
+import com.joaosant0s.pockettools.core.navigation.NavigationController
 
 import com.joaosant0s.pockettools.tools.ToolsBuilder
-import com.joaosant0s.pockettools.tools.collection.ToolLantern
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var toolsBuilder: ToolsBuilder
-    private lateinit var floatingController : FloatingController
+    private lateinit var floatingController: FloatingController
+    private lateinit var navigationController: NavigationController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         toolsBuilder = ToolsBuilder(this)
         floatingController = FloatingController(this)
+        navigationController = NavigationController(this)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -34,8 +37,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         toolsBuilder = toolsBuilder.addLockScreen().addVolume()
-        if(hasFlash) toolsBuilder = toolsBuilder.addLantern()
+        if (hasFlash) toolsBuilder = toolsBuilder.addLantern()
         toolsBuilder.create()
+
+        val permissions: MutableList<Permission> = mutableListOf<Permission>().apply {
+            add(floatingController)
+            addAll(toolsBuilder.getPermissions())
+        }
+
+        navigationController.populatePermissionOptions(permissions)
 
         floatingController.tryRequestFloatingPermission()
     }
