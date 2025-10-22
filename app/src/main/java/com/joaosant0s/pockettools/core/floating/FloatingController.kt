@@ -13,7 +13,7 @@ class FloatingController(view: MainActivity) {
 
     private var context: MainActivity = view
 
-    val canOverlay: Boolean
+    private val canOverlay: Boolean
         get() = Settings.canDrawOverlays(context)
 
     private val overlayPermissionLauncher = context.registerForActivityResult(
