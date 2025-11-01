@@ -6,15 +6,14 @@ import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
-import com.joaosant0s.pockettools.MainActivity
 import com.joaosant0s.pockettools.R
 import com.joaosant0s.pockettools.tools.Tool
 import com.joaosant0s.pockettools.tools.ToolWrapper
 import com.joaosant0s.pockettools.utils.Message
 
-class ToolVolume(view: MainActivity) : Tool {
+class ToolVolume(view: Context) : Tool {
 
-    override var context: MainActivity = view
+    val context: Context = view
     private var audioManager: AudioManager =
         context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     private var maxVolume: Int = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)

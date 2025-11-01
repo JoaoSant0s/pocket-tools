@@ -22,7 +22,7 @@ import com.joaosant0s.pockettools.utils.Message
 
 class ToolLockScreen(view: MainActivity) : Tool, Permission {
 
-    override var context: MainActivity = view
+    val context: MainActivity = view
     private var deviceAdminLauncher: ActivityResultLauncher<Intent> =
         context.registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()

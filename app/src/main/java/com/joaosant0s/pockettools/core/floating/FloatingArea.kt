@@ -19,6 +19,10 @@ import androidx.core.content.edit
 import kotlin.math.absoluteValue
 
 import com.joaosant0s.pockettools.R
+import com.joaosant0s.pockettools.utils.AppEvents
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @SuppressLint("ClickableViewAccessibility")
 class FloatingArea(service: FloatingService) {
@@ -127,10 +131,17 @@ class FloatingArea(service: FloatingService) {
             }
         })
 
+        CoroutineScope(Dispatchers.Main).launch {
+            AppEvents.events.collect { (event) ->
+                when (event) {
+                    "LOCK_SCREEN_TAPPED" -> hideFloatingGridTools()
+                }
+            }
+        }
+
         floatingArea.setOnClickListener {
             if (floatingGridTools.isVisible()) {
-                floatingGridTools.setVisibility(View.INVISIBLE)
-                dragEnabled = true
+                hideFloatingGridTools()
             } else {
                 dragEnabled = false
 
@@ -143,6 +154,12 @@ class FloatingArea(service: FloatingService) {
         }
 
         windowManager.addView(floatingArea, floatingAreaParams)
+    }
+
+    fun hideFloatingGridTools()
+    {
+        floatingGridTools.setVisibility(View.INVISIBLE)
+        dragEnabled = true
     }
 
     fun destroy() {

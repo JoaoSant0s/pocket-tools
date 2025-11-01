@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Service.LAYOUT_INFLATER_SERVICE
 import android.content.Context.WINDOW_SERVICE
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.PixelFormat
 import android.os.Build
 import android.view.ContextThemeWrapper
@@ -17,6 +18,7 @@ import androidx.core.view.isVisible
 import com.joaosant0s.pockettools.MainActivity
 import com.joaosant0s.pockettools.R
 import com.joaosant0s.pockettools.tools.ToolWrapper
+import com.joaosant0s.pockettools.tools.ToolsBuilder
 
 class FloatingGridTools(service: FloatingService) {
 
@@ -26,6 +28,8 @@ class FloatingGridTools(service: FloatingService) {
     private val themedContext = ContextThemeWrapper(context, R.style.Theme_PocketTools)
 
     private val toolsList: LinearLayout
+    private var toolsBuilder: ToolsBuilder
+
     private val gridParams: WindowManager.LayoutParams
     private val gridToolsArea: FrameLayout
 
@@ -35,7 +39,9 @@ class FloatingGridTools(service: FloatingService) {
         @SuppressLint("InflateParams")
         gridToolsArea = inflater.inflate(R.layout.floating_panel, null) as FrameLayout
         gridToolsArea.visibility = View.INVISIBLE
-        toolsList = gridToolsArea.findViewById<LinearLayout>(R.id.floating_tool_list)
+        toolsList = gridToolsArea.findViewById(R.id.floating_tool_list)
+
+        toolsBuilder = ToolsBuilder(themedContext, toolsList)
 
         gridToolsArea.measure(
             View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
@@ -80,6 +86,8 @@ class FloatingGridTools(service: FloatingService) {
     }
 
     private fun setupTools() {
+        val hasFlash = context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
+
         val backButton = ToolWrapper.createTextButton(
             themedContext,
             ToolWrapper.baseLayoutParams,
@@ -90,6 +98,10 @@ class FloatingGridTools(service: FloatingService) {
         }
 
         toolsList.addView(backButton)
+
+        toolsBuilder = toolsBuilder.addLockScreen().addVolume()
+        if (hasFlash) toolsBuilder = toolsBuilder.addLantern()
+        toolsBuilder.create()
     }
 
     private fun openMainActivity() {
