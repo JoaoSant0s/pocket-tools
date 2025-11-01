@@ -6,21 +6,26 @@ import android.content.Context.WINDOW_SERVICE
 import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Build
+import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import com.joaosant0s.pockettools.MainActivity
 import com.joaosant0s.pockettools.R
+import com.joaosant0s.pockettools.tools.ToolWrapper
 
 class FloatingGridTools(service: FloatingService) {
 
 
     private val context: FloatingService = service
     private val windowManager = context.getSystemService(WINDOW_SERVICE) as WindowManager
+    private val themedContext = ContextThemeWrapper(context, R.style.Theme_PocketTools)
 
+    private val toolsList: LinearLayout
     private val gridParams: WindowManager.LayoutParams
     private val gridToolsArea: FrameLayout
 
@@ -30,6 +35,7 @@ class FloatingGridTools(service: FloatingService) {
         @SuppressLint("InflateParams")
         gridToolsArea = inflater.inflate(R.layout.floating_panel, null) as FrameLayout
         gridToolsArea.visibility = View.INVISIBLE
+        toolsList = gridToolsArea.findViewById<LinearLayout>(R.id.floating_tool_list)
 
         gridToolsArea.measure(
             View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
@@ -51,6 +57,8 @@ class FloatingGridTools(service: FloatingService) {
         }
 
         windowManager.addView(gridToolsArea, gridParams)
+
+        setupTools()
     }
 
     fun isVisible(): Boolean {
@@ -69,6 +77,19 @@ class FloatingGridTools(service: FloatingService) {
 
     fun destroy() {
         windowManager.removeView(gridToolsArea)
+    }
+
+    private fun setupTools() {
+        val backButton = ToolWrapper.createTextButton(
+            themedContext,
+            ToolWrapper.baseLayoutParams,
+            R.string.back_application_button
+        )
+        {
+            openMainActivity()
+        }
+
+        toolsList.addView(backButton)
     }
 
     private fun openMainActivity() {

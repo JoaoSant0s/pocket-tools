@@ -5,6 +5,9 @@
     <!-- Menu -->
     <string name="settings">Settings</string>
 
+    <!-- Floating Grid Tools -->
+    <string name="back_application_button">Back to Pocket Tools</string>
+
     <!-- Floating Button -->
     <string name="floating_button">Floating button</string>
     <string name="floating_button_request">Floating Button Permission</string>
