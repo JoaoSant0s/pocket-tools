@@ -17,8 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ToolLockScreenAlternative(view: Context) : Tool {
-
+class ToolFloatingLockScreen(view: Context) : Tool {
     val context: Context = view
 
     private var devicePolicyManager: DevicePolicyManager =

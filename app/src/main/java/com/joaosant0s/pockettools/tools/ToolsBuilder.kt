@@ -1,15 +1,12 @@
 package com.joaosant0s.pockettools.tools
 
 import android.content.Context
-import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import com.joaosant0s.pockettools.MainActivity
-import com.joaosant0s.pockettools.R
 import com.joaosant0s.pockettools.core.Permission
 import com.joaosant0s.pockettools.tools.collection.ToolLantern
 import com.joaosant0s.pockettools.tools.collection.ToolLockScreen
-import com.joaosant0s.pockettools.tools.collection.ToolLockScreenAlternative
+import com.joaosant0s.pockettools.tools.collection.ToolFloatingLockScreen
 import com.joaosant0s.pockettools.tools.collection.ToolVolume
 
 class ToolsBuilder(view: Context, layout : ViewGroup) {
@@ -26,7 +23,7 @@ class ToolsBuilder(view: Context, layout : ViewGroup) {
             tools.add(ToolLockScreen(context))
 
         }else{
-            tools.add(ToolLockScreenAlternative(context))
+            tools.add(ToolFloatingLockScreen(context))
         }
 
         return this
