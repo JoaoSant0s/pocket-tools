@@ -17,12 +17,12 @@ import com.joaosant0s.pockettools.R
 
 class FloatingGridTools(service: FloatingService) {
 
-    private var context: FloatingService = service
-    private var gridToolsArea: FrameLayout
-    private var gridParams: WindowManager.LayoutParams
 
-    private var windowManager = context.getSystemService(WINDOW_SERVICE) as WindowManager
+    private val context: FloatingService = service
+    private val windowManager = context.getSystemService(WINDOW_SERVICE) as WindowManager
 
+    private val gridParams: WindowManager.LayoutParams
+    private val gridToolsArea: FrameLayout
 
     init {
         val inflater = context.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater

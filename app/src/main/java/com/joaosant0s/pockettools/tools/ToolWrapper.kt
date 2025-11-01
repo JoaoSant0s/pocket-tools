@@ -1,5 +1,6 @@
 package com.joaosant0s.pockettools.tools
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.view.View
@@ -31,7 +32,7 @@ class ToolWrapper {
         )
 
         fun createTextButton(
-            context: MainActivity,
+            context: Context,
             layout: ViewGroup.LayoutParams,
             resId: Int,
             action: View.OnClickListener
@@ -47,7 +48,7 @@ class ToolWrapper {
         }
 
         fun createToggleSwitch(
-            context: MainActivity,
+            context: Context,
             layout: ViewGroup.LayoutParams,
             resId: Int,
             wasChecked: Boolean,

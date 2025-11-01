@@ -12,6 +12,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.content.Context.WINDOW_SERVICE
+import android.view.ContextThemeWrapper
 import android.widget.FrameLayout
 import androidx.core.content.edit
 
@@ -29,7 +30,8 @@ class FloatingArea(service: FloatingService) {
     private val screenWidth = Resources.getSystem().displayMetrics.widthPixels
     private val screenHeight = Resources.getSystem().displayMetrics.heightPixels
 
-    private var context: FloatingService = service
+    private val context: FloatingService = service
+
     private var floatingArea: FrameLayout
     private var floatingGridTools: FloatingGridTools
 
