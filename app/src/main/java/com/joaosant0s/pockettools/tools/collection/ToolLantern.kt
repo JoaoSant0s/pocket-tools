@@ -1,23 +1,20 @@
 package com.joaosant0s.pockettools.tools.collection
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.hardware.camera2.CameraManager
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.LinearLayout
 
-import com.joaosant0s.pockettools.MainActivity
 import com.joaosant0s.pockettools.R
 import com.joaosant0s.pockettools.tools.Tool
 import com.joaosant0s.pockettools.tools.ToolWrapper
 import androidx.core.graphics.toColorInt
 
-class ToolLantern(view: MainActivity) : Tool {
+class ToolLantern(view: Context) : Tool {
 
-    override var context: MainActivity = view
-
+    val context: Context = view
     private val cameraManager = context.getSystemService(Context.CAMERA_SERVICE) as CameraManager
     private var isFlashOn = false
 

@@ -24,7 +24,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@android:drawable/ic_menu_more"
-            app:title="My App"
+            app:title="@string/app_name"
             app:titleCentered="true" />
 
         <LinearLayout

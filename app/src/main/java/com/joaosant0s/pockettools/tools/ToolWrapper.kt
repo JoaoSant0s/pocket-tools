@@ -1,14 +1,12 @@
 package com.joaosant0s.pockettools.tools
 
-import android.graphics.Color
-import android.graphics.Typeface
+import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.LinearLayout
 import androidx.core.graphics.toColorInt
 
-import com.joaosant0s.pockettools.MainActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.switchmaterial.SwitchMaterial
 
@@ -31,7 +29,7 @@ class ToolWrapper {
         )
 
         fun createTextButton(
-            context: MainActivity,
+            context: Context,
             layout: ViewGroup.LayoutParams,
             resId: Int,
             action: View.OnClickListener
@@ -47,7 +45,7 @@ class ToolWrapper {
         }
 
         fun createToggleSwitch(
-            context: MainActivity,
+            context: Context,
             layout: ViewGroup.LayoutParams,
             resId: Int,
             wasChecked: Boolean,

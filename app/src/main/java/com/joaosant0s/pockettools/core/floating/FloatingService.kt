@@ -14,7 +14,7 @@ import com.joaosant0s.pockettools.R
 
 class FloatingService : Service() {
 
-    private lateinit var floatButton: FloatingButton
+    private lateinit var floatingArea: FloatingArea
     private val NOTIFICATION_ID_FOREGROUND_SERVICE = 1
     private val channelId = "floating_service"
 
@@ -23,13 +23,13 @@ class FloatingService : Service() {
         super.onCreate()
 
         tryCreateNotification()
-        floatButton = FloatingButton(this)
+        floatingArea = FloatingArea(this)
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
-        floatButton.destroy()
+        floatingArea.destroy()
     }
 
     private fun tryCreateNotification() {

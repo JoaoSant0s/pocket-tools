@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">Pocket Tools</string>
+    <string name="test">Test</string>
 
     <!-- Menu -->
-    <string name="help">Help</string>
     <string name="settings">Settings</string>
-    <string name="home">Home</string>
+
+    <!-- Floating Grid Tools -->
+    <string name="back_application_button">Back to Pocket Tools</string>
 
     <!-- Floating Button -->
     <string name="floating_button">Floating button</string>
