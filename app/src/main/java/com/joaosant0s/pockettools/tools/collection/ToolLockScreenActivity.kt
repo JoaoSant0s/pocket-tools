@@ -20,7 +20,7 @@ import com.joaosant0s.pockettools.tools.Tool
 import com.joaosant0s.pockettools.tools.ToolWrapper
 import com.joaosant0s.pockettools.utils.Message
 
-class ToolLockScreen(view: MainActivity) : Tool, Permission {
+class ToolLockScreenActivity(view: MainActivity) : Tool, Permission {
 
     val context: MainActivity = view
     private var deviceAdminLauncher: ActivityResultLauncher<Intent> =

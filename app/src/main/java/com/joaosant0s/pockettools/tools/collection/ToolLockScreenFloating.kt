@@ -15,7 +15,7 @@ import com.joaosant0s.pockettools.tools.ToolWrapper
 import com.joaosant0s.pockettools.utils.Message
 import com.joaosant0s.pockettools.utils.events.EventEmitter
 
-class ToolFloatingLockScreen(view: Context) : Tool, EventEmitter {
+class ToolLockScreenFloating(view: Context) : Tool, EventEmitter {
     val context: Context = view
 
     private var devicePolicyManager: DevicePolicyManager =

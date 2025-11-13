@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import com.joaosant0s.pockettools.MainActivity
 import com.joaosant0s.pockettools.core.Permission
 import com.joaosant0s.pockettools.tools.collection.ToolLantern
-import com.joaosant0s.pockettools.tools.collection.ToolLockScreen
-import com.joaosant0s.pockettools.tools.collection.ToolFloatingLockScreen
+import com.joaosant0s.pockettools.tools.collection.ToolLockScreenActivity
+import com.joaosant0s.pockettools.tools.collection.ToolLockScreenFloating
 import com.joaosant0s.pockettools.tools.collection.ToolVolume
 
 class ToolsBuilder(view: Context, layout : ViewGroup) {
@@ -20,10 +20,10 @@ class ToolsBuilder(view: Context, layout : ViewGroup) {
 
         if(context is MainActivity)
         {
-            tools.add(ToolLockScreen(context))
+            tools.add(ToolLockScreenActivity(context))
 
         }else{
-            tools.add(ToolFloatingLockScreen(context))
+            tools.add(ToolLockScreenFloating(context))
         }
 
         return this
