@@ -1,9 +1,9 @@
-package com.joaosant0s.pockettools.utils
+package com.joaosant0s.pockettools.utils.events
 
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 
-object AppEvents {
+object EventObject {
     private val _events = MutableSharedFlow<Pair<String, Any?>>()
     val events = _events.asSharedFlow()
 

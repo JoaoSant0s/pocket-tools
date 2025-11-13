@@ -33,6 +33,4 @@ class AlertDialogWrapper {
             return dialog
         }
     }
-
-
 }

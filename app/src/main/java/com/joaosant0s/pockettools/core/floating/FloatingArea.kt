@@ -12,20 +12,17 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.content.Context.WINDOW_SERVICE
-import android.view.ContextThemeWrapper
 import android.widget.FrameLayout
 import androidx.core.content.edit
 
 import kotlin.math.absoluteValue
 
 import com.joaosant0s.pockettools.R
-import com.joaosant0s.pockettools.utils.AppEvents
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.joaosant0s.pockettools.core.EventNames
+import com.joaosant0s.pockettools.utils.events.EventListener
 
 @SuppressLint("ClickableViewAccessibility")
-class FloatingArea(service: FloatingService) {
+class FloatingArea(service: FloatingService) : EventListener {
 
     private val limitOffset = 78
     private val clickThreshold = 10
@@ -131,14 +128,6 @@ class FloatingArea(service: FloatingService) {
             }
         })
 
-        CoroutineScope(Dispatchers.Main).launch {
-            AppEvents.events.collect { (event) ->
-                when (event) {
-                    "LOCK_SCREEN_TAPPED" -> hideFloatingGridTools()
-                }
-            }
-        }
-
         floatingArea.setOnClickListener {
             if (floatingGridTools.isVisible()) {
                 hideFloatingGridTools()
@@ -154,22 +143,23 @@ class FloatingArea(service: FloatingService) {
         }
 
         windowManager.addView(floatingArea, floatingAreaParams)
+        addListener()
     }
 
-    fun hideFloatingGridTools()
-    {
+    private fun hideFloatingGridTools() {
         floatingGridTools.setVisibility(View.INVISIBLE)
         dragEnabled = true
     }
 
     fun destroy() {
+        removeListener()
         floatingGridTools.destroy()
         windowManager.removeView(floatingArea)
     }
 
     private fun savePosition(x: Int, y: Int) {
         val prefs = context.getSharedPreferences(floatingPrefs, Context.MODE_PRIVATE)
-        prefs.edit() { putInt("x_pos", x).putInt("y_pos", y) }
+        prefs.edit { putInt("x_pos", x).putInt("y_pos", y) }
     }
 
     private fun loadPosition(): Pair<Int, Int> {
@@ -177,5 +167,11 @@ class FloatingArea(service: FloatingService) {
         val x = prefs.getInt("x_pos", limitOffset) // default X
         val y = prefs.getInt("y_pos", 100) // default Y
         return Pair(x, y)
+    }
+
+    override fun onEventTriggered(eventName: String) {
+        when (eventName) {
+            EventNames.LOCK_SCREEN_ACTIVATED -> hideFloatingGridTools()
+        }
     }
 }

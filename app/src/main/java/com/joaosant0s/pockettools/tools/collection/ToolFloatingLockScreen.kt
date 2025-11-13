@@ -9,15 +9,13 @@ import android.widget.LinearLayout
 
 import com.joaosant0s.pockettools.core.admin.DeviceAdminReceiver
 import com.joaosant0s.pockettools.R
+import com.joaosant0s.pockettools.core.EventNames
 import com.joaosant0s.pockettools.tools.Tool
 import com.joaosant0s.pockettools.tools.ToolWrapper
-import com.joaosant0s.pockettools.utils.AppEvents
 import com.joaosant0s.pockettools.utils.Message
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.joaosant0s.pockettools.utils.events.EventEmitter
 
-class ToolFloatingLockScreen(view: Context) : Tool {
+class ToolFloatingLockScreen(view: Context) : Tool, EventEmitter {
     val context: Context = view
 
     private var devicePolicyManager: DevicePolicyManager =
@@ -37,9 +35,7 @@ class ToolFloatingLockScreen(view: Context) : Tool {
         )
         {
             if (isAdmin()) {
-                CoroutineScope(Dispatchers.Default).launch {
-                    AppEvents.emit("LOCK_SCREEN_TAPPED")
-                }
+                emit(EventNames.LOCK_SCREEN_ACTIVATED)
                 devicePolicyManager.lockNow()
             }else{
                 Message.showToast(context, "Open the Pocket Tool App and Request Admin Permission")
