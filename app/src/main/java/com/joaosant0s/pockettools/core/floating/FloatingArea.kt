@@ -24,6 +24,11 @@ import com.joaosant0s.pockettools.utils.events.EventListener
 @SuppressLint("ClickableViewAccessibility")
 class FloatingArea(service: FloatingService) : EventListener {
 
+    private enum class FloatingOrientation {
+        Left,
+        Right
+    }
+
     private val limitOffset = 78
     private val clickThreshold = 10
     private val floatingPrefs = "floating_prefs"
@@ -37,8 +42,21 @@ class FloatingArea(service: FloatingService) : EventListener {
     private var floatingGridTools: FloatingGridTools
 
     private var dragEnabled: Boolean = true
+    private var floatingOrientation = FloatingOrientation.Left
 
     private var windowManager = context.getSystemService(WINDOW_SERVICE) as WindowManager
+
+    val floatingAreaParams = WindowManager.LayoutParams(
+        WindowManager.LayoutParams.WRAP_CONTENT,
+        WindowManager.LayoutParams.WRAP_CONTENT,
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+        else
+            @Suppress("DEPRECATION")
+            WindowManager.LayoutParams.TYPE_PHONE,
+        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+        PixelFormat.TRANSLUCENT
+    )
 
     init {
         val inflater = context.getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -52,28 +70,20 @@ class FloatingArea(service: FloatingService) : EventListener {
             View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
         )
 
-        val floatingAreaParams = WindowManager.LayoutParams(
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-            else
-                @Suppress("DEPRECATION")
-                WindowManager.LayoutParams.TYPE_PHONE,
-            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-            PixelFormat.TRANSLUCENT
-        )
-
         floatingAreaParams.gravity = Gravity.TOP or Gravity.START
         val position = loadPosition()
         floatingAreaParams.x = position.first
         floatingAreaParams.y = position.second
+        updateOrientation()
 
         floatingArea.setOnTouchListener(object : View.OnTouchListener {
             private var initialX = 0
             private var initialY = 0
             private var initialTouchX = 0f
             private var initialTouchY = 0f
+
+            private var moveX = 0
+            private var moveY = 0
 
             override fun onTouch(v: View, event: MotionEvent): Boolean {
                 if (!dragEnabled) return false
@@ -89,14 +99,15 @@ class FloatingArea(service: FloatingService) : EventListener {
                     }
 
                     MotionEvent.ACTION_MOVE -> {
-                        val newX = (initialX + (event.rawX - initialTouchX)).toInt()
-                        val newY = (initialY + (event.rawY - initialTouchY)).toInt()
+                        moveX = (initialX + (event.rawX - initialTouchX)).toInt()
+                        moveY = (initialY + (event.rawY - initialTouchY)).toInt()
 
                         // Clamp within screen limits (subtract button size)
-                        floatingAreaParams.x = newX.coerceIn(0, screenWidth - floatingArea.width)
-                        floatingAreaParams.y = newY.coerceIn(0, screenHeight - floatingArea.height)
+                        updateFloatingAreaPosition(
+                            moveX.coerceIn(0, screenWidth - floatingArea.width),
+                            moveY.coerceIn(0, screenHeight - floatingArea.height)
+                        )
 
-                        windowManager.updateViewLayout(floatingArea, floatingAreaParams)
                         return true
                     }
 
@@ -107,17 +118,18 @@ class FloatingArea(service: FloatingService) : EventListener {
                         if (dx.absoluteValue < clickThreshold && dy.absoluteValue < clickThreshold) {
                             v.performClick()
                         } else {
-                            floatingAreaParams.x =
+                            val xPosition =
                                 if (floatingAreaParams.x + floatingArea.width / 2 < screenWidth / 2) {
                                     limitOffset
                                 } else {
                                     screenWidth - floatingArea.width - limitOffset
                                 }
 
-                            floatingAreaParams.y =
+                            updateOrientation()
+                            updateFloatingAreaPosition(
+                                xPosition,
                                 floatingAreaParams.y.coerceIn(0, screenHeight - floatingArea.height)
-
-                            windowManager.updateViewLayout(floatingArea, floatingAreaParams)
+                            )
                         }
 
                         savePosition(floatingAreaParams.x, floatingAreaParams.y)
@@ -134,7 +146,13 @@ class FloatingArea(service: FloatingService) : EventListener {
             } else {
                 dragEnabled = false
 
-                val xPos = floatingAreaParams.x + floatingArea.width + 25
+                val xPos =
+                    floatingAreaParams.x + if (floatingOrientation == FloatingOrientation.Left) {
+                        floatingArea.width + 25
+                    } else {
+                        -(floatingArea.width + 520)
+                    }
+
                 val yPos = floatingAreaParams.y + floatingArea.height / 2
 
                 floatingGridTools.setPosition(xPos, yPos)
@@ -144,6 +162,21 @@ class FloatingArea(service: FloatingService) : EventListener {
 
         windowManager.addView(floatingArea, floatingAreaParams)
         addListener()
+    }
+
+    private fun updateOrientation() {
+        if (floatingAreaParams.x + floatingArea.width / 2 < screenWidth / 2) {
+            floatingOrientation = FloatingOrientation.Left
+        } else {
+            floatingOrientation = FloatingOrientation.Right
+        }
+    }
+
+    private fun updateFloatingAreaPosition(xPosition: Int, yPosition: Int) {
+        floatingAreaParams.x = xPosition
+        floatingAreaParams.y = yPosition
+
+        windowManager.updateViewLayout(floatingArea, floatingAreaParams)
     }
 
     private fun hideFloatingGridTools() {

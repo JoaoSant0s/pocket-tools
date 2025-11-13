@@ -21,8 +21,6 @@ import com.joaosant0s.pockettools.tools.ToolWrapper
 import com.joaosant0s.pockettools.tools.ToolsBuilder
 
 class FloatingGridTools(service: FloatingService) {
-
-
     private val context: FloatingService = service
     private val windowManager = context.getSystemService(WINDOW_SERVICE) as WindowManager
     private val themedContext = ContextThemeWrapper(context, R.style.Theme_PocketTools)
