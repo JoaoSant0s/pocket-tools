@@ -12,6 +12,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.content.Context.WINDOW_SERVICE
+import android.content.res.Configuration
 import android.widget.FrameLayout
 import androidx.core.content.edit
 
@@ -44,7 +45,10 @@ class FloatingArea(service: FloatingService) : EventListener {
     private var dragEnabled: Boolean = true
     private var floatingOrientation = FloatingOrientation.Left
 
-    private var windowManager = context.getSystemService(WINDOW_SERVICE) as WindowManager
+    private val deviceOrientation: Int
+        get() = context.resources.configuration.orientation
+
+    private val windowManager = context.getSystemService(WINDOW_SERVICE) as WindowManager
 
     val floatingAreaParams = WindowManager.LayoutParams(
         WindowManager.LayoutParams.WRAP_CONTENT,
@@ -102,10 +106,21 @@ class FloatingArea(service: FloatingService) : EventListener {
                         moveX = (initialX + (event.rawX - initialTouchX)).toInt()
                         moveY = (initialY + (event.rawY - initialTouchY)).toInt()
 
+                        val width : Int
+                        val height : Int
+                        
+                        if(deviceOrientation == Configuration.ORIENTATION_PORTRAIT){
+                            width = screenWidth - floatingArea.width
+                            height = screenHeight - floatingArea.height
+                        }else{
+                            width = screenHeight - floatingArea.height
+                            height = screenWidth - floatingArea.width
+                        }
+
                         // Clamp within screen limits (subtract button size)
                         updateFloatingAreaPosition(
-                            moveX.coerceIn(0, screenWidth - floatingArea.width),
-                            moveY.coerceIn(0, screenHeight - floatingArea.height)
+                            moveX.coerceIn(0, width),
+                            moveY.coerceIn(0, height)
                         )
 
                         return true
@@ -118,21 +133,35 @@ class FloatingArea(service: FloatingService) : EventListener {
                         if (dx.absoluteValue < clickThreshold && dy.absoluteValue < clickThreshold) {
                             v.performClick()
                         } else {
-                            val xPosition =
-                                if (floatingAreaParams.x + floatingArea.width / 2 < screenWidth / 2) {
-                                    limitOffset
-                                } else {
-                                    screenWidth - floatingArea.width - limitOffset
-                                }
+                            val xPosition : Int
+                            val yPosition : Int
+
+                            if(deviceOrientation == Configuration.ORIENTATION_PORTRAIT){
+                                xPosition =
+                                    if (floatingAreaParams.x + floatingArea.width / 2 < screenWidth / 2) {
+                                        limitOffset
+                                    } else {
+                                        screenWidth - floatingArea.width - limitOffset
+                                    }
+                                yPosition = floatingAreaParams.y.coerceIn(0, screenHeight - floatingArea.height)
+                            }else{
+                                yPosition =
+                                    if (floatingAreaParams.y + floatingArea.height / 2 < screenWidth / 2) {
+                                        limitOffset
+                                    } else {
+                                        screenWidth - floatingArea.width - limitOffset
+                                    }
+                                xPosition = floatingAreaParams.x.coerceIn(limitOffset, screenHeight - floatingArea.height - limitOffset)
+                            }
 
                             updateOrientation()
                             updateFloatingAreaPosition(
                                 xPosition,
-                                floatingAreaParams.y.coerceIn(0, screenHeight - floatingArea.height)
+                                yPosition
                             )
+                            savePosition(floatingAreaParams.x, floatingAreaParams.y)
                         }
 
-                        savePosition(floatingAreaParams.x, floatingAreaParams.y)
                         return true
                     }
                 }
@@ -165,10 +194,10 @@ class FloatingArea(service: FloatingService) : EventListener {
     }
 
     private fun updateOrientation() {
-        if (floatingAreaParams.x + floatingArea.width / 2 < screenWidth / 2) {
-            floatingOrientation = FloatingOrientation.Left
+        floatingOrientation = if (floatingAreaParams.x + floatingArea.width / 2 < screenWidth / 2) {
+            FloatingOrientation.Left
         } else {
-            floatingOrientation = FloatingOrientation.Right
+            FloatingOrientation.Right
         }
     }
 
