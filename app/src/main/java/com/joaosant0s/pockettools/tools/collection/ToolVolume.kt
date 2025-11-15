@@ -1,11 +1,14 @@
 package com.joaosant0s.pockettools.tools.collection
 
 import android.content.Context
+import android.graphics.drawable.GradientDrawable
 import android.media.AudioManager
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import com.joaosant0s.pockettools.MainActivity
 import com.joaosant0s.pockettools.R
 import com.joaosant0s.pockettools.tools.Tool
 import com.joaosant0s.pockettools.tools.ToolWrapper
@@ -28,7 +31,7 @@ class ToolVolume(view: Context) : Tool {
         val lowerButton = ToolWrapper.createTextButton(
             context,
             ToolWrapper.horizontalElementLayoutParams,
-            R.string.decrease_volume_button
+            if(context is MainActivity) R.string.decrease_volume_button else R.string.decrease_volume_abbreviation_button
         ) {
             audioManager.adjustStreamVolume(
                 AudioManager.STREAM_MUSIC,
@@ -43,7 +46,7 @@ class ToolVolume(view: Context) : Tool {
         val raiseButton = ToolWrapper.createTextButton(
             context,
             ToolWrapper.horizontalElementLayoutParams,
-            R.string.increase_volume_button
+            if(context is MainActivity) R.string.increase_volume_button else R.string.increase_volume_abbreviation_button
         ) {
             audioManager.adjustStreamVolume(
                 AudioManager.STREAM_MUSIC,

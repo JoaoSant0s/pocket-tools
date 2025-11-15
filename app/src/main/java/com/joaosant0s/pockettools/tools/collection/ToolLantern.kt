@@ -6,11 +6,11 @@ import android.hardware.camera2.CameraManager
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 
 import com.joaosant0s.pockettools.R
 import com.joaosant0s.pockettools.tools.Tool
 import com.joaosant0s.pockettools.tools.ToolWrapper
-import androidx.core.graphics.toColorInt
 
 class ToolLantern(view: Context) : Tool {
 
@@ -36,19 +36,12 @@ class ToolLantern(view: Context) : Tool {
             orientation = LinearLayout.HORIZONTAL
             layoutParams = ToolWrapper.baseLayoutParams
             gravity = Gravity.CENTER
-
-            val backgroundDrawable = GradientDrawable().apply {
-                shape = GradientDrawable.RECTANGLE
-                cornerRadius = 200f // adjust as needed
-                setColor("#CFBAFF".toColorInt()) // background
-            }
-
-            background = backgroundDrawable
+            setPadding(10, 10, 10, 10)
         }
 
         val lanternButton = ToolWrapper.createToggleSwitch(
             context,
-            ToolWrapper.wrapContentLayoutParams,
+            ToolWrapper.baseLayoutParams,
             R.string.lantern_toggle,
             isFlashOn
         )

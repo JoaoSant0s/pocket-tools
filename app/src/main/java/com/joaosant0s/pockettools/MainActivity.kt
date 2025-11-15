@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        toolsBuilder.refreshTools()
 
         floatingController.tryStop();
     }

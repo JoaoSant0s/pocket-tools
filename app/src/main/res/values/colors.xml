@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="orange">#eb4034</color>
+    <color name="green">#77EB34</color>
+    <color name="google_material">#CFBAFF</color>
+    <color name="text">#361E6B</color>
+
 </resources>

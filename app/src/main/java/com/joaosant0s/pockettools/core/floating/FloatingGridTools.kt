@@ -79,6 +79,19 @@ class FloatingGridTools(service: FloatingService) {
         windowManager.updateViewLayout(gridToolsArea, gridParams)
     }
 
+    fun refreshTools()
+    {
+        val previouslyVisible = isVisible()
+
+        setVisibility(View.INVISIBLE)
+
+        toolsBuilder.refreshTools()
+
+        if(!previouslyVisible) return
+
+        setVisibility(View.VISIBLE)
+    }
+
     fun destroy() {
         windowManager.removeView(gridToolsArea)
     }

@@ -234,6 +234,7 @@ class FloatingArea(service: FloatingService) : EventListener {
     override fun onEventTriggered(eventName: String) {
         when (eventName) {
             EventNames.LOCK_SCREEN_ACTIVATED -> hideFloatingGridTools()
+            EventNames.LOCK_SCREEN_PERMISSION_UPDATED -> floatingGridTools.refreshTools()
         }
     }
 }

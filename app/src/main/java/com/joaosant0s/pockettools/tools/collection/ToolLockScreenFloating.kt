@@ -3,9 +3,11 @@ package com.joaosant0s.pockettools.tools.collection
 import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
 import android.content.Context
+import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 
 import com.joaosant0s.pockettools.core.admin.DeviceAdminReceiver
 import com.joaosant0s.pockettools.R
@@ -21,12 +23,16 @@ class ToolLockScreenFloating(view: Context) : Tool, EventEmitter {
     private var devicePolicyManager: DevicePolicyManager =
         context.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
 
+    private lateinit var horizontalLayout : LinearLayout
+
     override fun create(): ViewGroup {
-        val horizontalLayout = LinearLayout(context).apply {
+        horizontalLayout = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             layoutParams = ToolWrapper.baseLayoutParams
             gravity = Gravity.CENTER
         }
+
+        refresh()
 
         val lockScreenButton = ToolWrapper.createTextButton(
             context,
@@ -45,6 +51,23 @@ class ToolLockScreenFloating(view: Context) : Tool, EventEmitter {
         horizontalLayout.addView(lockScreenButton)
 
         return horizontalLayout
+    }
+
+    override fun refresh()
+    {
+        if(!isAdmin() && horizontalLayout.background == null)
+        {
+            horizontalLayout.background = GradientDrawable().apply {
+                shape = GradientDrawable.RECTANGLE
+                cornerRadius = 100f
+                setColor(ContextCompat.getColor(context, R.color.orange))
+            }
+            horizontalLayout.setPadding(15, 4, 15, 5)
+        }else if(isAdmin() && horizontalLayout.background != null){
+            horizontalLayout.background = null
+        }
+
+        horizontalLayout.requestLayout()
     }
 
     private fun isAdmin(): Boolean {
