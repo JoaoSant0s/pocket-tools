@@ -1,14 +1,18 @@
 package com.joaosant0s.pockettools.tools
 
 import android.content.Context
+import android.graphics.Typeface
+import android.graphics.drawable.GradientDrawable
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.LinearLayout
-import androidx.core.graphics.toColorInt
+import androidx.core.content.ContextCompat
 
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.joaosant0s.pockettools.R
 
 class ToolWrapper {
     companion object {
@@ -55,7 +59,18 @@ class ToolWrapper {
                 text = context.getString(resId)
                 isChecked = wasChecked
                 layoutParams = layout
-                setTextColor("#361E6B".toColorInt())
+                gravity = Gravity.CENTER
+                setTypeface(null, Typeface.BOLD)
+                setTextColor(ContextCompat.getColor(context, R.color.text))
+                setPadding(0, 0, 100, 0)
+
+                val backgroundDrawable = GradientDrawable().apply {
+                    shape = GradientDrawable.RECTANGLE
+                    cornerRadius = 100f // adjust as needed
+                    setColor(ContextCompat.getColor(context, R.color.google_material)) // background
+                }
+
+                background = backgroundDrawable
             }
 
             toggleSwitch.setOnCheckedChangeListener(listener)

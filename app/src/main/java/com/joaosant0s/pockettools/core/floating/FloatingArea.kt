@@ -179,7 +179,7 @@ class FloatingArea(service: FloatingService) : EventListener {
                     floatingAreaParams.x + if (floatingOrientation == FloatingOrientation.Left) {
                         floatingArea.width + 25
                     } else {
-                        -(floatingArea.width + 520)
+                        -(floatingArea.width + 420)
                     }
 
                 val yPos = floatingAreaParams.y + floatingArea.height / 2
@@ -234,6 +234,7 @@ class FloatingArea(service: FloatingService) : EventListener {
     override fun onEventTriggered(eventName: String) {
         when (eventName) {
             EventNames.LOCK_SCREEN_ACTIVATED -> hideFloatingGridTools()
+            EventNames.LOCK_SCREEN_PERMISSION_UPDATED -> floatingGridTools.refreshTools()
         }
     }
 }

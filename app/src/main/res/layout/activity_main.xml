@@ -34,6 +34,8 @@
             android:gravity="center"
             android:orientation="vertical"
             android:padding="48dp"
+            android:showDividers="middle"
+            android:divider="@drawable/empty_tall_divider"
             tools:layout_editor_absoluteX="64dp"
             tools:layout_editor_absoluteY="16dp" />
 

@@ -5,12 +5,14 @@ import android.content.ComponentName
 import android.provider.Settings
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 
 import com.joaosant0s.pockettools.core.admin.DeviceAdminReceiver
 import com.joaosant0s.pockettools.MainActivity
@@ -31,12 +33,16 @@ class ToolLockScreenActivity(view: MainActivity) : Tool, Permission {
     private var devicePolicyManager: DevicePolicyManager =
         context.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
 
+    private lateinit var horizontalLayout : LinearLayout
+
     override fun create(): ViewGroup {
-        val horizontalLayout = LinearLayout(context).apply {
+        horizontalLayout = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             layoutParams = ToolWrapper.baseLayoutParams
             gravity = Gravity.CENTER
         }
+
+        refresh()
 
         val lockScreenButton = ToolWrapper.createTextButton(
             context,
@@ -71,6 +77,23 @@ class ToolLockScreenActivity(view: MainActivity) : Tool, Permission {
         return android.R.drawable.ic_lock_lock
     }
 
+    override fun refresh()
+    {
+        if(!isAdmin() && horizontalLayout.background == null)
+        {
+            horizontalLayout.background = GradientDrawable().apply {
+                shape = GradientDrawable.RECTANGLE
+                cornerRadius = 100f
+                setColor(ContextCompat.getColor(context, R.color.orange))
+            }
+            horizontalLayout.setPadding(15, 4, 15, 5)
+        }else if(isAdmin() && horizontalLayout.background != null){
+            horizontalLayout.background = null
+        }
+
+        horizontalLayout.requestLayout()
+    }
+
     private fun tryRequestAdminAccess(): Boolean {
         val compName = ComponentName(context, DeviceAdminReceiver::class.java)
 
@@ -89,5 +112,11 @@ class ToolLockScreenActivity(view: MainActivity) : Tool, Permission {
         }
 
         return false
+    }
+
+    private fun isAdmin(): Boolean {
+        val compName = ComponentName(context, DeviceAdminReceiver::class.java)
+
+        return devicePolicyManager.isAdminActive(compName)
     }
 }

@@ -9,7 +9,7 @@ import com.joaosant0s.pockettools.tools.collection.ToolLockScreenActivity
 import com.joaosant0s.pockettools.tools.collection.ToolLockScreenFloating
 import com.joaosant0s.pockettools.tools.collection.ToolVolume
 
-class ToolsBuilder(view: Context, layout : ViewGroup) {
+class ToolsBuilder(view: Context, layout: ViewGroup) {
     private val context: Context = view
     private val rootLayout: ViewGroup = layout
 
@@ -18,11 +18,10 @@ class ToolsBuilder(view: Context, layout : ViewGroup) {
 
     fun addLockScreen(): ToolsBuilder {
 
-        if(context is MainActivity)
-        {
+        if (context is MainActivity) {
             tools.add(ToolLockScreenActivity(context))
 
-        }else{
+        } else {
             tools.add(ToolLockScreenFloating(context))
         }
 
@@ -52,5 +51,11 @@ class ToolsBuilder(view: Context, layout : ViewGroup) {
         if (!created) throw Exception("ToolsBuild where not Created yet")
 
         return tools.filterIsInstance<Permission>()
+    }
+
+    fun refreshTools() {
+        for (tool in tools) {
+            tool.refresh()
+        }
     }
 }
