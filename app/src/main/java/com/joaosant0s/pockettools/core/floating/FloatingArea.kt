@@ -179,7 +179,7 @@ class FloatingArea(service: FloatingService) : EventListener {
                     floatingAreaParams.x + if (floatingOrientation == FloatingOrientation.Left) {
                         floatingArea.width + 25
                     } else {
-                        -(floatingArea.width + 520)
+                        -(floatingArea.width + 420)
                     }
 
                 val yPos = floatingAreaParams.y + floatingArea.height / 2
